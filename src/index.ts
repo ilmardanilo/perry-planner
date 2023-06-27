@@ -10,6 +10,7 @@ app.use(routes);
 const server = app.listen(PORT, () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   console.log(`listening on port ${PORT} 🚀`);
 });
 

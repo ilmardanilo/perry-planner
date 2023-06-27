@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id         String   @id @default(uuid())
+  nome       String
+  email      String   @unique
+  senha      String   @unique
+  telefone   String
+  bairro     String
+  rua        String
+  numero     String
+  cpj_cnpj   String
+  created_at DateTime @default(now())
+  updated_at DateTime
+
+  @@map("usuarios")
+}
+
+model ClienteEmpresa {
+  id         String   @id @default(uuid())
+  clienteId  String
+  empresaId  String
+  vencimento DateTime @default(now())
+
+  @@map("clientesEmpresas")
+}
+
+model Conta {
+  id               String   @id @default(uuid())
+  clienteEmpresaId String
+  dataAbertura     DateTime @default(now())
+  dataFechamento   DateTime @default(now())
+  dataVencido      DateTime @default(now())
+  juros            Float
+  total            Float
+  dataJuros        Float
+  pagar            Boolean  @default(false)
+
+  @@map("contas")
+}
+
+model Movimento {
+  id      String   @id @default(uuid())
+  contaId String
+  data    DateTime
+  valor   Float
+  tipo    Tipo     @default(COMPRA)
+
+  @@map("movimentos")
+}
+
+enum Tipo {
+  COMPRA
+  PAGAMENTO
+}
