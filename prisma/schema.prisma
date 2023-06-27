@@ -52,6 +52,8 @@ model Movimento {
   data    DateTime
   valor   Float
   tipo    Tipo     @default(COMPRA)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
 
   @@map("movimentos")
 }
