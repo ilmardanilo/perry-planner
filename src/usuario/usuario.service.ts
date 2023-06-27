@@ -104,4 +104,14 @@ export class UsuarioService {
       data: { ...user, ...params, updatedAt: new Date() }
     });
   }
+
+  async delete(userId: string) {
+    const user = await prisma.usuario.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundError("Usuário não existe.");
+    }
+
+    await prisma.usuario.delete({ where: { id: userId } });
+  }
 }
