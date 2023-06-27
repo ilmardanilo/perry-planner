@@ -38,6 +38,21 @@ export class UsuarioController {
     }
   };
 
+  getById = async (
+    req: Request<{ usuarioId: string }, {}, {}, {}>,
+    res: Response
+  ) => {
+    try {
+      const { usuarioId } = req.params;
+
+      const result = await this.usuarioService.getById(usuarioId);
+
+      res.status(200).json(result);
+    } catch (error) {
+      handleError(res, error);
+    }
+  };
+
   update = async (
     req: Request<{ usuarioId: string }, {}, IParamsUpdateUser, {}>,
     res: Response

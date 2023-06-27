@@ -1,4 +1,8 @@
-import { IParamsCreateUser, IParamsUpdateUser } from "./usuario.interfaces";
+import {
+  IParamsCreateUser,
+  IParamsUpdateUser,
+  IUsuario
+} from "./usuario.interfaces";
 import { prisma } from "../config/prisma";
 import { NotFoundError, UnprocessableEntityError } from "../helpers/errors";
 import { SECRET_KEY } from "../config/environment-consts";
@@ -74,6 +78,18 @@ export class UsuarioService {
       nome: user.nome,
       token
     };
+  }
+
+  async getById(userId: string) {
+    const user = await prisma.usuario.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundError("Usuário não existe.");
+    }
+
+    user.senha = "";
+
+    return user;
   }
 
   async update(userId: string, params: IParamsUpdateUser) {
