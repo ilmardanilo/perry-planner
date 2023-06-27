@@ -8,52 +8,68 @@ datasource db {
 }
 
 model Usuario {
-  id         String   @id @default(uuid())
-  nome       String
-  email      String   @unique
-  senha      String   @unique
-  telefone   String
-  bairro     String
-  rua        String
-  numero     String
-  cpj_cnpj   String
-  created_at DateTime @default(now())
-  updated_at DateTime
+  id        String   @id @default(uuid())
+  nome      String
+  email     String?  @unique
+  senha     String?
+  telefone  String
+  bairro    String
+  rua       String
+  numero    String
+  cpj_cnpj  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
-  @@map("usuarios")
+  clientes ClienteEmpresa[] @relation("Cliente_Usuario")
+  empresas ClienteEmpresa[] @relation("Empresa_Usuario")
+
+  @@map("usuario")
 }
 
 model ClienteEmpresa {
-  id         String   @id @default(uuid())
-  clienteId  String
-  empresaId  String
-  vencimento DateTime @default(now())
+  id            String   @id @default(uuid())
+  clienteId     String
+  empresaId     String
+  diaVencimento Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
 
-  @@map("clientesEmpresas")
+  cliente Usuario @relation("Cliente_Usuario", fields: [clienteId], references: [id])
+  empresa Usuario @relation("Empresa_Usuario", fields: [empresaId], references: [id])
+  contas  Conta[]
+
+  @@map("clienteEmpresa")
 }
 
 model Conta {
-  id               String   @id @default(uuid())
+  id               String    @id @default(uuid())
   clienteEmpresaId String
-  dataAbertura     DateTime @default(now())
-  dataFechamento   DateTime @default(now())
-  dataVencido      DateTime @default(now())
-  juros            Float
+  dataFechamento   DateTime
+  dataVencido      DateTime
+  juros            Float     @default(0)
   total            Float
-  dataJuros        Float
-  pagar            Boolean  @default(false)
+  dataJuros        DateTime?
+  estaPaga         Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @default(now())
 
-  @@map("contas")
+  clienteEmpresa ClienteEmpresa @relation(fields: [clienteEmpresaId], references: [id])
+  movimentos     Movimento[]
+
+  @@map("conta")
 }
 
 model Movimento {
-  id      String   @id @default(uuid())
-  contaId String
-  data    DateTime
-  valor   Float
-  tipo    Tipo     @default(COMPRA)
+  id        String   @id @default(uuid())
+  contaId   String
+  valor     Float
+  tipo      Tipo
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
-  @@map("movimentos")
+  conta Conta @relation(fields: [contaId], references: [id])
+
+  @@map("movimento")
 }
 
 enum Tipo {
