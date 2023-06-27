@@ -101,7 +101,7 @@ export class UsuarioService {
 
     await prisma.usuario.update({
       where: { id: userId },
-      data: { ...user, ...params }
+      data: { ...user, ...params, updatedAt: new Date() }
     });
   }
 }
