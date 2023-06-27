@@ -7,7 +7,7 @@ import { sign } from "jsonwebtoken";
 
 export class UsuarioService {
   async create(params: IParamsCreateUser) {
-    const { email, cpj_cnpj, senha } = params;
+    const { email, cpf_cnpj, senha } = params;
 
     if (email) {
       const userEmail = await prisma.usuario.findUnique({ where: { email } });
@@ -20,7 +20,7 @@ export class UsuarioService {
     }
 
     const userCpfCnpj = await prisma.usuario.findUnique({
-      where: { cpj_cnpj }
+      where: { cpf_cnpj }
     });
 
     if (userCpfCnpj) {
@@ -41,7 +41,7 @@ export class UsuarioService {
       }
     });
 
-    const token = sign({ id: user.id, cpfCnpj: cpj_cnpj }, SECRET_KEY, {
+    const token = sign({ id: user.id, cpf_cnpj }, SECRET_KEY, {
       expiresIn: "30 days"
     });
 
@@ -65,7 +65,7 @@ export class UsuarioService {
       throw new UnprocessableEntityError("Senha incorreta.");
     }
 
-    const token = sign({ id: user.id, cpfCnpj: user.cpj_cnpj }, SECRET_KEY, {
+    const token = sign({ id: user.id, cpfCnpj: user.cpf_cnpj }, SECRET_KEY, {
       expiresIn: "30 days"
     });
 

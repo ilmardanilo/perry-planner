@@ -7,7 +7,7 @@ export interface IUsuario {
   bairro: string;
   rua: string;
   numero: string;
-  cpj_cnpj: string;
+  cpf_cnpj: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,7 +20,7 @@ export interface IParamsCreateUser {
   bairro: string;
   rua: string;
   numero: string;
-  cpj_cnpj: string;
+  cpf_cnpj: string;
 }
 
 export interface IParamsUpdateUser {
@@ -29,5 +29,5 @@ export interface IParamsUpdateUser {
   bairro?: string;
   rua?: string;
   numero?: string;
-  cpj_cnpj?: string;
+  cpf_cnpj?: string;
 }

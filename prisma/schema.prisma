@@ -17,7 +17,7 @@ model Usuario {
   bairro    String
   rua       String
   numero    String
-  cpj_cnpj  String   @unique
+  cpf_cnpj  String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
