@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import { IParamsCreateUser, IParamsUpdateUser } from "./usuario.interfaces";
 import { UsuarioService } from "./usuario.service";
-import { handleError } from "../helpers/utils";
+import { handleError } from "../../helpers/utils";
 
 export class UsuarioController {
   private readonly usuarioService: UsuarioService;

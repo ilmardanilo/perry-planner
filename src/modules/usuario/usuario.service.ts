@@ -1,11 +1,7 @@
-import {
-  IParamsCreateUser,
-  IParamsUpdateUser,
-  IUsuario
-} from "./usuario.interfaces";
-import { prisma } from "../config/prisma";
-import { NotFoundError, UnprocessableEntityError } from "../helpers/errors";
-import { SECRET_KEY } from "../config/environment-consts";
+import { IParamsCreateUser, IParamsUpdateUser } from "./usuario.interfaces";
+import { prisma } from "../../config/prisma";
+import { NotFoundError, UnprocessableEntityError } from "../../helpers/errors";
+import { SECRET_KEY } from "../../config/environment-consts";
 import { hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 
