@@ -22,3 +22,12 @@ export interface IParamsCreateUser {
   numero: string;
   cpj_cnpj: string;
 }
+
+export interface IParamsUpdateUser {
+  nome?: string;
+  telefone?: string;
+  bairro?: string;
+  rua?: string;
+  numero?: string;
+  cpj_cnpj?: string;
+}
