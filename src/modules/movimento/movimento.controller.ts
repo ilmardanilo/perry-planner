@@ -22,4 +22,19 @@ export class MovimentoController {
       handleError(res, error);
     }
   };
+
+  getAllByAccountId = async (
+    req: Request<{ contaId: string }, {}, {}, {}>,
+    res: Response
+  ) => {
+    try {
+      const { contaId } = req.params;
+
+      const result = await this.movimentoService.getAllByAccountId(contaId);
+
+      res.status(200).json(result);
+    } catch (error) {
+      handleError(res, error);
+    }
+  };
 }

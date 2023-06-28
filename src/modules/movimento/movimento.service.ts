@@ -1,6 +1,6 @@
 import { ETypeMovement, IParamsCreateMovement } from "./movimento.interfaces";
 import { prisma } from "../../config/prisma";
-import { UnprocessableEntityError } from "../../helpers/errors";
+import { NotFoundError, UnprocessableEntityError } from "../../helpers/errors";
 import { getMonthString } from "../../helpers/utils";
 import moment from "moment";
 
@@ -120,6 +120,24 @@ export class MovimentoService {
         valor,
         tipo,
         descricao: descricao || ""
+      }
+    });
+  }
+
+  async getAllByAccountId(contaId: string) {
+    const account = await prisma.conta.findUnique({
+      where: {
+        id: contaId
+      }
+    });
+
+    if (!account) {
+      throw new NotFoundError("Conta não existe.");
+    }
+
+    return await prisma.movimento.findMany({
+      where: {
+        contaId
       }
     });
   }
