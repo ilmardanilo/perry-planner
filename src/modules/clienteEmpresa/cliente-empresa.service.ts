@@ -1,6 +1,6 @@
 import { IParamsCreateClientCompany } from "./cliente-empresa.interfaces";
 import { prisma } from "../../config/prisma";
-import { UnprocessableEntityError } from "../../helpers/errors";
+import { NotFoundError, UnprocessableEntityError } from "../../helpers/errors";
 
 export class ClienteEmpresaService {
   async create(params: IParamsCreateClientCompany) {
@@ -55,6 +55,28 @@ export class ClienteEmpresaService {
         clienteId: clientId,
         empresaId,
         diaVencimento: Number(diaVencimento)
+      }
+    });
+  }
+
+  async getAllByCompanyId(empresaId: string) {
+    const company = await prisma.usuario.findUnique({
+      where: {
+        id: empresaId
+      }
+    });
+
+    if (!company) {
+      throw new NotFoundError("Empresa não existe.");
+    }
+
+    return await prisma.clienteEmpresa.findMany({
+      where: {
+        empresaId
+      },
+      include: {
+        cliente: true,
+        contas: true
       }
     });
   }

@@ -22,4 +22,21 @@ export class ClienteEmpresaController {
       handleError(res, error);
     }
   };
+
+  getAllByCompanyId = async (
+    req: Request<{ empresaId: string }, {}, {}, {}>,
+    res: Response
+  ) => {
+    try {
+      const { empresaId } = req.params;
+
+      const result = await this.clienteEmpresaService.getAllByCompanyId(
+        empresaId
+      );
+
+      res.status(200).json(result);
+    } catch (error) {
+      handleError(res, error);
+    }
+  };
 }

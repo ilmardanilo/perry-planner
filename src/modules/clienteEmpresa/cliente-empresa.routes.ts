@@ -6,5 +6,6 @@ const clienteEmpresaController = new ClienteEmpresaController();
 const clienteEmpresaRouter = Router();
 
 clienteEmpresaRouter.post("/clientes", auth, clienteEmpresaController.create);
+clienteEmpresaRouter.get("/clientes/:empresaId", auth, clienteEmpresaController.getAllByCompanyId);
 
 export { clienteEmpresaRouter };
