@@ -50,7 +50,7 @@ export class ClienteEmpresaService {
       );
     }
 
-    await prisma.clienteEmpresa.create({
+    return await prisma.clienteEmpresa.create({
       data: {
         clienteId: clientId,
         empresaId,
