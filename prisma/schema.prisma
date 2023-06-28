@@ -43,16 +43,18 @@ model ClienteEmpresa {
 }
 
 model Conta {
-  id               String    @id @default(uuid())
-  clienteEmpresaId String
-  dataFechamento   DateTime
-  dataVencido      DateTime
-  juros            Float     @default(0)
-  total            Float
-  dataJuros        DateTime?
-  estaPaga         Boolean   @default(false)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @default(now())
+  id                String    @id @default(uuid())
+  clienteEmpresaId  String
+  dataFechamento    DateTime
+  dataVencimento    DateTime
+  mesReferente      Mes
+  anoReferente      Int
+  juros             Float     @default(0)
+  totalSemJuros     Float
+  dataCobrancaJuros DateTime?
+  estaPaga          Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now())
 
   clienteEmpresa ClienteEmpresa @relation(fields: [clienteEmpresaId], references: [id])
   movimentos     Movimento[]
@@ -65,6 +67,7 @@ model Movimento {
   contaId   String
   valor     Float
   tipo      Tipo
+  descricao String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
@@ -76,4 +79,19 @@ model Movimento {
 enum Tipo {
   COMPRA
   PAGAMENTO
+}
+
+enum Mes {
+  JANEIRO
+  FEVEREIRO
+  MARCO
+  ABRIL
+  MAIO
+  JUNHO
+  JULHO
+  AGOSTO
+  SETEMBRO
+  OUTUBRO
+  NOVEMBRO
+  DEZEMBRO
 }
