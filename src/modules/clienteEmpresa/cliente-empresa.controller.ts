@@ -4,10 +4,10 @@ import { ClienteEmpresaService } from "./cliente-empresa.service";
 import { handleError } from "../../helpers/utils";
 
 export class ClienteEmpresaController {
-  private readonly usuarioService: ClienteEmpresaService;
+  private readonly clienteEmpresaService: ClienteEmpresaService;
 
   constructor() {
-    this.usuarioService = new ClienteEmpresaService();
+    this.clienteEmpresaService = new ClienteEmpresaService();
   }
 
   create = async (
@@ -15,7 +15,7 @@ export class ClienteEmpresaController {
     res: Response
   ) => {
     try {
-      const result = await this.usuarioService.create(req.body);
+      const result = await this.clienteEmpresaService.create(req.body);
 
       res.status(201).json(result);
     } catch (error) {
