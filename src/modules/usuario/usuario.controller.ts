@@ -38,14 +38,14 @@ export class UsuarioController {
     }
   };
 
-  getById = async (
-    req: Request<{ usuarioId: string }, {}, {}, {}>,
+  getByCpfCnpj = async (
+    req: Request<{ cpf_cnpj: string }, {}, {}, {}>,
     res: Response
   ) => {
     try {
-      const { usuarioId } = req.params;
+      const { cpf_cnpj } = req.params;
 
-      const result = await this.usuarioService.getById(usuarioId);
+      const result = await this.usuarioService.getByCpfCnpj(cpf_cnpj);
 
       res.status(200).json(result);
     } catch (error) {

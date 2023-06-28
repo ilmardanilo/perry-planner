@@ -7,7 +7,7 @@ const usuarioRouter = Router();
 
 usuarioRouter.post("/usuarios", usuarioController.create);
 usuarioRouter.post("/usuarios/login", usuarioController.login);
-usuarioRouter.get("/usuarios/:usuarioId", auth, usuarioController.getById);
+usuarioRouter.get("/usuarios/:cpf_cnpj", auth, usuarioController.getByCpfCnpj);
 usuarioRouter.put("/usuarios/:usuarioId", auth, usuarioController.update);
 usuarioRouter.delete("/usuarios/:usuarioId", auth, usuarioController.delete);
 

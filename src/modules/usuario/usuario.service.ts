@@ -76,8 +76,10 @@ export class UsuarioService {
     };
   }
 
-  async getById(userId: string) {
-    const user = await prisma.usuario.findUnique({ where: { id: userId } });
+  async getByCpfCnpj(CpfCnpj: string) {
+    const user = await prisma.usuario.findUnique({
+      where: { cpf_cnpj: CpfCnpj }
+    });
 
     if (!user) {
       throw new NotFoundError("Usuário não existe.");
