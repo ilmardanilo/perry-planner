@@ -70,6 +70,49 @@ export class ClienteEmpresaService {
       throw new NotFoundError("Empresa não existe.");
     }
 
+    const clients = await prisma.clienteEmpresa.findMany({
+      where: {
+        empresaId
+      }
+    });
+
+    const accounts = [];
+
+    for (const client of clients) {
+      const clientsAccounts = await prisma.conta.findMany({
+        where: {
+          clienteEmpresaId: client.id
+        }
+      });
+
+      accounts.push(...clientsAccounts);
+    }
+
+    for (const account of accounts) {
+      const currentDate = new Date();
+
+      if (account.dataVencimento < currentDate) {
+        const qtDaysOverdue = getDaysDifferenceBetweenDates(
+          account.dataVencimento,
+          currentDate
+        );
+
+        const INTEREST_RATE = 0.02;
+        const fees = account.totalSemJuros * INTEREST_RATE * qtDaysOverdue;
+
+        await prisma.conta.update({
+          where: {
+            id: account.id
+          },
+          data: {
+            juros: fees,
+            dataCobrancaJuros: currentDate,
+            updatedAt: currentDate
+          }
+        });
+      }
+    }
+
     return await prisma.clienteEmpresa.findMany({
       where: {
         empresaId
@@ -81,3 +124,15 @@ export class ClienteEmpresaService {
     });
   }
 }
+
+const getDaysDifferenceBetweenDates = (
+  expirationDate: any,
+  currentDate: any
+) => {
+  const diffInMilliseconds = currentDate - expirationDate;
+
+  const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+  const diffInDays = Math.floor(diffInMilliseconds / oneDayInMilliseconds);
+
+  return diffInDays;
+};
