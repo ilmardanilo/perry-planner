@@ -106,7 +106,6 @@ export class ClienteEmpresaService {
           },
           data: {
             juros: fees,
-            dataCobrancaJuros: currentDate,
             updatedAt: currentDate
           }
         });
