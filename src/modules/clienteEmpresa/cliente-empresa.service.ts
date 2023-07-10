@@ -124,7 +124,9 @@ export class ClienteEmpresaService {
   }
 
   async delete(id: string) {
-    const clientCompany = await prisma.clienteEmpresa.findUnique({ where: { id } });
+    const clientCompany = await prisma.clienteEmpresa.findUnique({
+      where: { id }
+    });
 
     if (!clientCompany) {
       throw new NotFoundError("Cliente não existe.");
