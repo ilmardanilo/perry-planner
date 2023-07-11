@@ -34,8 +34,8 @@ model ClienteEmpresa {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
 
-  cliente Usuario @relation("Cliente_Usuario", fields: [clienteId], references: [id])
-  empresa Usuario @relation("Empresa_Usuario", fields: [empresaId], references: [id])
+  cliente Usuario @relation("Cliente_Usuario", fields: [clienteId], references: [id], onDelete: Cascade)
+  empresa Usuario @relation("Empresa_Usuario", fields: [empresaId], references: [id], onDelete: Cascade)
   contas  Conta[]
 
   @@map("clienteEmpresa")
@@ -54,7 +54,7 @@ model Conta {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @default(now())
 
-  clienteEmpresa ClienteEmpresa @relation(fields: [clienteEmpresaId], references: [id])
+  clienteEmpresa ClienteEmpresa @relation(fields: [clienteEmpresaId], references: [id], onDelete: Cascade)
   movimentos     Movimento[]
 
   @@map("conta")
@@ -69,7 +69,7 @@ model Movimento {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  conta Conta @relation(fields: [contaId], references: [id])
+  conta Conta @relation(fields: [contaId], references: [id], onDelete: Cascade)
 
   @@map("movimento")
 }
