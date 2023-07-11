@@ -31,13 +31,27 @@ export class MovimentoService {
     const month = getMonthString(monthDate);
 
     let accountId = "";
-    const account = await prisma.conta.findFirst({
-      where: {
-        clienteEmpresaId: clientCompany.id,
-        mesReferente: month,
-        anoReferente: yearDate
-      }
-    });
+    let account;
+    if(tipo == ETypeMovement.COMPRA){
+      console.log("compra: ")
+      account = await prisma.conta.findFirst({
+        where: {
+          clienteEmpresaId: clientCompany.id,
+          mesReferente: month,
+          anoReferente: yearDate
+        }
+      });
+    } else{
+      account = await prisma.conta.findFirst({
+        where: {
+          clienteEmpresaId: clientCompany.id,
+          estaPaga: false
+        },
+        orderBy: {
+          dataFechamento: 'asc'
+        }
+      });
+    }
 
     if (!account) {
       const yearExpiration = monthDate + 1 > 11 ? yearDate + 1 : yearDate;
@@ -64,6 +78,8 @@ export class MovimentoService {
       });
 
       accountId = newAccount.id;
+    }else{
+      accountId = account.id;
     }
 
     if (account && account.dataFechamento > currentDate) {
@@ -87,7 +103,7 @@ export class MovimentoService {
       });
 
       accountId = account.id;
-    } else if (account && account.dataFechamento <= currentDate) {
+    } else if (account && account.dataFechamento <= currentDate && tipo === ETypeMovement.COMPRA) {
       const yearExpiration = monthDate + 2 > 11 ? yearDate + 1 : yearDate;
       const monthExpiration = getMonthExpiration(monthDate, 2);
 
