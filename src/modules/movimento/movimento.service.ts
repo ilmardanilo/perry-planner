@@ -78,8 +78,6 @@ export class MovimentoService {
       });
 
       accountId = newAccount.id;
-    }else{
-      accountId = account.id;
     }
 
     if (account && account.dataFechamento > currentDate) {
